@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html dir="rtl" lang="en" xmlns:x-transition="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8">
+    <title>Installation - Laravel - The PHP Framework For Web Artisans</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+        <link rel="canonical" href="https://laravel.com/docs/8.x/installation">
+    
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="{{site.baseurl}}/assets/img/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{site.baseurl}}/assets/img/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{site.baseurl}}/assets/img/favicon/favicon-16x16.png">
+    <link rel="manifest" href="{{site.baseurl}}/assets/img/favicon/site.webmanifest">
+    <link rel="mask-icon" href="{{site.baseurl}}/assets/img/favicon/safari-pinned-tab.svg" color="#ff2d20">
+    <link rel="shortcut icon" href="{{site.baseurl}}/assets/img/favicon/favicon.ico">
+    <meta name="msapplication-TileColor" content="#ff2d20">
+    <meta name="msapplication-config" content="{{site.baseurl}}/assets/img/favicon/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+
+    <link rel="stylesheet" href="https://use.typekit.net/ins2wgm.css">
+    <link rel="stylesheet" type="text/css" href="{{site.baseurl}}/assets/css/app.css">
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+</head>
+<body
+    x-data="{
+        navIsOpen: false,
+        searchIsOpen: false,
+        search: '',
+    }"
+    class="language-php h-full w-full font-sans text-gray-900 antialiased">
+
+    <div class="relative overflow-auto" id="docsScreen">
+        <div class="relative lg:flex lg:items-start">
+            {% include aside.html %}
+
+            <section class="flex-1 pl-20 lg:pl-0">
+                <div class="max-w-screen-lg px-4 sm:px-16 lg:px-24">
+                    {% include header.html %}
+                    <section class="mt-8 md:mt-16">
+                        <section class="docs_main max-w-prose">
+                    {{ content }}
+                        </section>
+                    </section>
+                </div>
+            </section>
+        </div>
+    </div>
+    {% include footer.html %}
+
+
+
+<script>
+    var algolia_app_id = 'BH4D9OD16A';
+    var algolia_search_key = '7dc4fe97e150304d1bf34f5043f178c4';
+    var version = '8.x';
+</script>
+
+<script src="{{site.baseurl}}/assets/js/app.js"></script>
+
+<script>
+    var _gaq=[['_setAccount','UA-23865777-1'],['_trackPageview']];
+    (function(d,t){
+        var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+        g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+        s.parentNode.insertBefore(g,s)
+    }(document,'script'));
+</script>
+</body>
+</html>

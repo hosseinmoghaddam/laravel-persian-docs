@@ -1,0 +1,101 @@
+<header class="flex flex-col items-end lg:mt-8 lg:flex-row-reverse">
+    <div class="mt-8 w-full lg:mt-0 lg:w-64 lg:pl-12">
+        <div>
+            <label class="text-gray-600 text-xs tracking-widest uppercase" for="version-switch">ورژن</label>
+            <div x-data class="relative w-full bg-white border-b border-gray-600 border-opacity-50 transition-all duration-500 focus-within:border-gray-600">
+                <select
+                    id="version-switcher"
+                    aria-label="Laravel version"
+                    class="appearance-none flex-1 w-full px-0 py-1 placeholder-gray-900 tracking-wide bg-white focus:outline-none"
+                    @change="window.location = $event.target.value"
+                >
+                                                                <option  value="https://laravel.com/docs/master">Master</option>
+                                                                <option selected value="https://laravel.com/docs/8.x">8.x</option>
+                                                                <option  value="https://laravel.com/docs/7.x">7.x</option>
+                                                                <option  value="https://laravel.com/docs/6.x">6.x</option>
+                                                                <option  value="https://laravel.com/docs/5.8">5.8</option>
+                                                                <option  value="https://laravel.com/docs/5.7">5.7</option>
+                                                                <option  value="https://laravel.com/docs/5.6">5.6</option>
+                                                                <option  value="https://laravel.com/docs/5.5">5.5</option>
+                                                                <option  value="https://laravel.com/docs/5.4">5.4</option>
+                                                                <option  value="https://laravel.com/docs/5.3">5.3</option>
+                                                                <option  value="https://laravel.com/docs/5.2">5.2</option>
+                                                                <option  value="https://laravel.com/docs/5.1">5.1</option>
+                                                                <option  value="https://laravel.com/docs/5.0">5.0</option>
+                                                                <option  value="https://laravel.com/docs/4.2">4.2</option>
+                                                        </select>
+                <img class="absolute inset-y-0 left-0 mt-2.5 w-2.5 h-2.5 text-gray-900 pointer-events-none" src="{{site.baseurl}}/assets/img/icons/drop_arrow.min.svg" alt="">
+            </div>
+        </div>
+    </div>
+    <div x-data="searchComponent()" x-init="init()" class="relative mt-8 flex justify-end w-full lg:mt-0">
+        <div
+            class="relative w-full border-b border-gray-600 border-opacity-50 overflow-hidden transition-all duration-500 focus-within:border-gray-600"
+            @click="searchIsOpen = true"
+            @click.away="clear"
+            @keydown.window.escape="clear"
+            @keydown.window="handleSlashKey"
+        >
+            <svg class="absolute inset-y-0 right-0 z-10 mt-1 w-5 h-5 text-gray-900 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+            <input
+                x-model.debouce.200ms="search"
+                x-ref="searchInput"
+                class="flex-1 w-full pl-8 pr-4 py-1 placeholder-gray-900 tracking-wide bg-white focus:outline-none"
+                placeholder="جوستجو در مستندات"
+                aria-label="Search in the documentation"
+                @keydown.arrow-up.prevent="focusPreviousResult()"
+                @keydown.arrow-down.prevent="focusNextResult()"
+            >
+        </div>
+        <div x-show="hits.length" x-cloak class="absolute w-full mt-8 pt-px divide-y divide-gray-200 shadow-sm z-30">
+<template x-for="(hit, index) in hits" :key="index">
+<a
+:id="'search-result-' + index"
+:href="hit.url"
+class="search-result block px-4 py-3 bg-gray-100 transition-colors duration-200 hover:bg-gray-200 focus:outline-none focus:bg-gray-200"
+@keydown.arrow-up.prevent="focusPreviousResult(index)"
+@keydown.arrow-down.prevent="focusNextResult(index)"
+>
+<div x-show="hit._highlightResult.hierarchy.lvl0" class="text-sm font-medium" x-html="hit._highlightResult.hierarchy.lvl0 ? hit._highlightResult.hierarchy.lvl0.value : ''"></div>
+<div class="mt-2">
+<div x-show="hit._highlightResult.hierarchy.lvl1" class="text-sm">
+<span class="text-red-600 opacity-75">#</span> <span x-html="hit._highlightResult.hierarchy.lvl1 ? hit._highlightResult.hierarchy.lvl1.value : ''"></span>
+</div>
+
+<div x-show="hit._highlightResult.hierarchy.lvl2" class="text-sm">
+> <span x-html="hit._highlightResult.hierarchy.lvl2 ? hit._highlightResult.hierarchy.lvl2.value : ''"></span>
+</div>
+
+<div x-show="hit._highlightResult.hierarchy.lvl3" class="text-sm">
+> <span x-html="hit._highlightResult.hierarchy.lvl3 ? hit._highlightResult.hierarchy.lvl3.value : ''"></span>
+</div>
+
+<div x-show="hit._highlightResult.hierarchy.lvl4" class="text-sm">
+> <span x-html="hit._highlightResult.hierarchy.lvl4 ? hit._highlightResult.hierarchy.lvl4.value : ''"></span>
+</div>
+
+<div x-show="hit._highlightResult.hierarchy.lvl5" class="text-sm">
+> <span x-html="hit._highlightResult.hierarchy.lvl5 ? hit._highlightResult.hierarchy.lvl5.value : ''"></span>
+</div>
+</div>
+</a>
+</template>
+<div class="bg-gray-100 flex justify-end">
+<a class="px-4 py-2 inline-block" target="_blank" href="https://www.algolia.com/?utm_source=laravel&utm_medium=link&utm_campaign=laravel_documentation_search">
+<img width="105" src="{{site.baseurl}}/assets/img/icons/algolia.min.svg" alt="Algolia">
+</a>
+</div>
+</div>
+
+<div x-show="search && ! hits.length" x-cloak class="absolute w-full mt-8 pt-px divide-y divide-gray-200 shadow-sm z-30">
+<div class="px-4 py-2 bg-gray-100">
+<div class="text-sm" x-text="`We didn't find any result for '${search}'. Sorry!`"></div>
+</div>
+<div class="bg-gray-100 flex justify-end">
+<a class="px-4 py-2 inline-block" target="_blank" href="https://www.algolia.com/?utm_source=laravel&utm_medium=link&utm_campaign=laravel_documentation_search">
+<img width="105" src="{{site.baseurl}}/assets/img/icons/algolia.min.svg" alt="Algolia">
+</a>
+</div>
+</div>
+    </div>
+</header>
